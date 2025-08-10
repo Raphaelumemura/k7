@@ -1,0 +1,28 @@
+name: 🚀 Deploy automático para FTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ftp-deploy:
+    name: Enviar para servidor FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixando repositório
+        uses: actions/checkout@v2
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: 191.252.196.127
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /NOME_DA_PASTA_NO_SERVIDOR/
+          protocol: ftp
+          exclude: |
+            **/.git*
+            **/.github*
+            **/README.md
