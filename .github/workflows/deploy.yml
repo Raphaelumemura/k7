@@ -20,7 +20,7 @@ jobs:
           server: 191.252.196.127
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /NOME_DA_PASTA_NO_SERVIDOR/
+          server-dir: /k7/
           protocol: ftp
           exclude: |
             **/.git*
