@@ -1,21 +1,34 @@
 name: 🚀 Deploy para FTP (k7)
+
 on:
   push:
     branches: [ main ]
+  workflow_dispatch: {}
+
+concurrency:
+  group: ftp-deploy-k7
+  cancel-in-progress: true
+
 jobs:
   ftp-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: 191.252.196.127
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
-          server-dir: /k7/public/
+          port: 21
+          server-dir: /k7/        # << envia direto para /home/ftpuser/k7/
+          # state-name: .ftp-deploy-sync-state.json   # (opcional) nome do arquivo de estado
           exclude: |
             **/.git/**
             **/.github/**
             **/node_modules/**
             **/.DS_Store
+            **/README.md
