@@ -6,7 +6,7 @@ on:
   workflow_dispatch: {}
 
 concurrency:
-  group: ftp-deploy-k7
+  group: ftp-deploy-k7-app
   cancel-in-progress: true
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           port: 21
-          server-dir: /k7/        # << envia direto para /home/ftpuser/k7/
+          server-dir: /k7-app/        # << envia direto para /home/ftpuser/k7/
           # state-name: .ftp-deploy-sync-state.json   # (opcional) nome do arquivo de estado
           exclude: |
             **/.git/**
