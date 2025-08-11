@@ -25,7 +25,7 @@ jobs:
           protocol: ftp
 
           # Salva o estado da última sincronização para acelerar futuros deploys
-          state-name: "ftp-deploy-cache-steve"
+          state-name: "ftp-deploy-cache-k7-app"
 
           # Ignora arquivos e pastas irrelevantes
           exclude: |
