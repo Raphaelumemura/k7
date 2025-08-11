@@ -1,46 +1,21 @@
-name: 🚀 Deploy automático para FTP novo
-
+name: 🚀 Deploy para FTP (k7)
 on:
   push:
-    branches:
-      - main
-
+    branches: [ main ]
 jobs:
   ftp-deploy:
-    name: Enviar para servidor FTP novo
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # aumenta o limite para evitar timeout
-
     steps:
-      - name: Baixando repositório
-        uses: actions/checkout@v2
-
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - uses: actions/checkout@v4
+      - uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: 191.252.196.127
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /k7/
           protocol: ftp
-
-          # Salva o estado da última sincronização para acelerar futuros deploys
-          state-name: "ftp-deploy-cache-k7"
-
-          # Ignora arquivos e pastas irrelevantes
+          server-dir: /k7/public/
           exclude: |
-            **/.git*
-            **/.github*
-            **/README.md
+            **/.git/**
+            **/.github/**
             **/node_modules/**
-            **/*.map
-            **/*.lock
-            **/deploy.yml
-            **/node/.wwebjs_auth
-            **/node/.wwebjs_cache
-            **/node/node_modules
-            **/public/uploads
-            **/public/plugins
-
-          # (Opcional - cuidado! Limpa tudo antes de subir)
-          # dangerous-clean-slate: true
+            **/.DS_Store
