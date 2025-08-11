@@ -1,4 +1,4 @@
-name: 🚀 Deploy automático para FTP
+name: 🚀 Deploy automático para FTP novo
 
 on:
   push:
@@ -7,8 +7,9 @@ on:
 
 jobs:
   ftp-deploy:
-    name: Enviar para servidor FTP
+    name: Enviar para servidor FTP novo
     runs-on: ubuntu-latest
+    timeout-minutes: 30  # aumenta o limite para evitar timeout
 
     steps:
       - name: Baixando repositório
@@ -22,7 +23,24 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: /k7/
           protocol: ftp
+
+          # Salva o estado da última sincronização para acelerar futuros deploys
+          state-name: "ftp-deploy-cache-k7"
+
+          # Ignora arquivos e pastas irrelevantes
           exclude: |
             **/.git*
             **/.github*
             **/README.md
+            **/node_modules/**
+            **/*.map
+            **/*.lock
+            **/deploy.yml
+            **/node/.wwebjs_auth
+            **/node/.wwebjs_cache
+            **/node/node_modules
+            **/public/uploads
+            **/public/plugins
+
+          # (Opcional - cuidado! Limpa tudo antes de subir)
+          # dangerous-clean-slate: true
